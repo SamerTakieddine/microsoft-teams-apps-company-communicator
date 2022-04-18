@@ -397,6 +397,7 @@ class ManageGroups extends React.Component<IManageGroupsProps, formState> {
     private onDeleteGroup(id: number, key: string) {
         //removes from the list
         //this.state.allGroups.splice(id, 1);
+        //alert("Key to delete: " + key);
         this.deleteGroup(key).then(() => {
             this.getAllGroupsAssociated();
         });
@@ -432,7 +433,7 @@ class ManageGroups extends React.Component<IManageGroupsProps, formState> {
                     key: element.groupId,
                     header: element.groupName,
                     content: element.groupEmail,
-                    endMedia: <Button circular size="small" onClick={this.onDeleteGroup.bind(this, x, element.groupId)} icon={<TrashCanIcon />} />,
+                    endMedia: <Button circular size="small" onClick={this.onDeleteGroup.bind(this, x, element.rowKey)} icon={<TrashCanIcon />} />,
                     media: <Image src={ImageUtil.makeInitialImage(element.groupName)} avatar />
                 });
                 x++;

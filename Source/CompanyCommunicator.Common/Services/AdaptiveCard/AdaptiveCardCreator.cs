@@ -93,12 +93,20 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Services.AdaptiveCard
 
             if (!string.IsNullOrWhiteSpace(imageUrl))
             {
+                // allows the expansion of images in the card
+                var additionalProperty = new SerializableDictionary<string, object>();
+                additionalProperty.Add("msteams", new
+                {
+                    allowExpand = true,
+                });
+
                 card.Body.Add(new AdaptiveImage()
                 {
                     Url = new Uri(imageUrl, UriKind.RelativeOrAbsolute),
                     Spacing = AdaptiveSpacing.Default,
                     Size = AdaptiveImageSize.Stretch,
                     AltText = string.Empty,
+                    AdditionalProperties = additionalProperty,
                 });
             }
 
@@ -145,6 +153,7 @@ namespace Microsoft.Teams.Apps.CompanyCommunicator.Common.Services.AdaptiveCard
                 card.Actions.AddRange(JsonSerializer.Deserialize<List<AdaptiveOpenUrlAction>>(buttons, options));
             }
 
+            // if the tracking is disabled, trackingutl will be null/blank and the image will not be included on the card
             if (!string.IsNullOrWhiteSpace(trackingurl))
             {
                 string trul = trackingurl + "/?id=[ID]&key=[KEY]";
